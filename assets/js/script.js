@@ -5,8 +5,6 @@ var lowerPrompt;
 var upperPrompt;
 var numericPrompt;
 var specialPrompt;
-var characters = [];
-var i = 0;
 // Assignment code here
 
 // The random number/Numeric function
@@ -41,24 +39,25 @@ function rndm(min,max) {
     numericPrompt = window.confirm("Would you like Numeric characters in your password?");
     specialPrompt = window.confirm("Would you like Special characters in your password?");
   }
-  
+  //Generate password
   function generatePassword() {
+    var i = 0;
+    var characters = [];
     //Prompt for password length
     var lengthPrompt = window.prompt("How many characters would you like your password to have?");
-    if (lengthPrompt > 8 && lengthPrompt<128) {
+    if (lengthPrompt >= 8 && lengthPrompt <= 128 && lengthPrompt)   {
       prompts();
-    }else {
+    }else if (lengthPrompt === null){
+      return;
+    } else{
       window.alert("Password Length may only be 8-128 Characters long!");
-      return;
+      generatePassword();
     } //Prompt validation
-   if (lowerPrompt,upperPrompt,numericPrompt,specialPrompt == false) {
-     var confirm =window.confirm("You need to select at least 1 type of chacter to proceed")
-      if (confirm) {
-        prompts();
-      } else {
-      return;
+   if (lowerPrompt && upperPrompt && numericPrompt && specialPrompt == false) {
+     window.alert("You need to select at least 1 type of chacter to proceed")
+      generatePassword();
+     return;
     }
-   }
    //The Password Generator
   while(i<lengthPrompt) {
     var num = rndm(1,5)
@@ -71,7 +70,7 @@ function rndm(min,max) {
     characters[i] = genUpper();
     } else if (num === 3 && numericPrompt) {
       console.log(num)
-      characters[i] = (rndm(1,10));
+      characters[i] = (rndm(0,10));
     } else if (num === 4 && specialPrompt) {
       console.log(num)
       characters[i] = genSpecial();
@@ -79,7 +78,8 @@ function rndm(min,max) {
       i--
     }
   }
-  return characters.join("");
+  window.alert(characters.join(""));
+  return(characters.join(""));
   }
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
@@ -88,7 +88,7 @@ var generateBtn = document.querySelector("#generate");
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
-
+  
   passwordText.value = password;
 
 }
